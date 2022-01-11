@@ -17,7 +17,7 @@ const apiEndpoint = "https://data.sfgov.org/resource/vw6y-z8j6.json?"
 const baseWhere = "WHERE media_url != '' AND service_subtype = 'Human or Animal Waste'"
 
 getPooURL()
-window.setInterval(getPooURL, 7000)
+window.setInterval(getPooURL, 6000)
 
 async function getCount() {
 	const result = await fetch(`${apiEndpoint}$query=SELECT COUNT(media_url) ${baseWhere}`);
