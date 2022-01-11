@@ -13,22 +13,23 @@
 <script>
 'use strict';
 
-const apiEndpoint = "https://data.sfgov.org/resource/vw6y-z8j6.json?"
-const baseWhere = "WHERE media_url != '' AND service_subtype = 'Human or Animal Waste'"
+const apiEndpoint = "https://data.sfgov.org/resource/vw6y-z8j6.json?";
+const baseWhere = "WHERE media_url != '' AND service_subtype = 'Human or Animal Waste'";
 
-getPooURL()
-window.setInterval(getPooURL, 6000)
+getPooURL();
+window.setInterval(getPooURL, 6000);
 
 async function getCount() {
 	const result = await fetch(`${apiEndpoint}$query=SELECT COUNT(media_url) ${baseWhere}`);
-	const json = await result.json()
-	return json[0].COUNT_media_url
+	const json = await result.json();
+	return json[0].COUNT_media_url;
 }
 async function getPooURL() {
-	const count = await getCount()
-	const offset = Math.floor(Math.random() * count)
-	const result = await fetch(`${apiEndpoint}$query=SELECT media_url ${baseWhere} LIMIT 1 OFFSET ${offset}`)
-	const json = await result.json()
-	document.querySelector("#pic").src = json[0].media_url.url
+	const count = await getCount();
+	const offset = Math.floor(Math.random() * count);
+	const result = await fetch(`${apiEndpoint}$query=SELECT media_url ${baseWhere} LIMIT 1 OFFSET ${offset}`);
+	const json = await result.json();
+	const url = json[0].media_url.url;
+	document.querySelector("#pic").src = url.replace("http://", "https://");
 }
 </script>
