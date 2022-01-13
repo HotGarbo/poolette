@@ -1,4 +1,4 @@
-# Poo-lette
-## AKA [Doo-doo Roulette](https://poo-lette.hotgarba.ge)
+# Poolette
+## AKA [Doo-doo Roulette](https://poolette.hotgarba.ge)
 
-Random images of shit sent to https://sf311.org/
+Random images of fecal content sent to https://sf311.org/
