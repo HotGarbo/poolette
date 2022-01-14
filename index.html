@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+<title>Poolette</title>
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 <style>
@@ -12,6 +13,8 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+	min-height: 100vh;
 }
 @media (prefers-color-scheme: dark) {
 	body {
@@ -26,7 +29,7 @@ body {
 #loader {
 	position: fixed;
 	text-align: center;
-	font-size: 10rem;
+	font-size: 10vw;
 }
 #spinner {
 	animation: 1.5s linear infinite spinner;
@@ -47,29 +50,50 @@ body {
 	<div>Loading...</div>
 	<div id="spinner">💩</div>
 </div>
-<img id="pic" src="" />
+<img id="pic" src=""/>
 
 <script>
 'use strict';
 
-const apiEndpoint = "https://data.sfgov.org/resource/vw6y-z8j6.json?";
-const baseWhere = "WHERE media_url != '' AND service_subtype = 'Human or Animal Waste'";
-let count = 0;
+const imgEl = document.querySelector("#pic");
+let urls = [];
 
-getCount().then(_ => getPooURL())
-
-async function getCount() {
-	const result = await fetch(`${apiEndpoint}$query=SELECT COUNT(media_url) ${baseWhere}`);
-	const json = await result.json();
-	count = json[0].COUNT_media_url;
+window.onload = () => {
+	imgEl.addEventListener('load', doAPoo)
+	imgEl.addEventListener('error', redoAPoo)
+	getPoos()
 }
-async function getPooURL() {
-	const offset = Math.floor(Math.random() * count);
-	const result = await fetch(`${apiEndpoint}$query=SELECT media_url ${baseWhere} LIMIT 1 OFFSET ${offset}`);
-	const json = await result.json();
-	const url = json[0].media_url.url;
-	document.querySelector("#pic").src = url.replace("http://", "https://");
+
+async function getPoos() {
+	const apiEndpoint = "https://data.sfgov.org/resource/vw6y-z8j6.json?";
+	const baseWhere = "WHERE media_url != '' AND service_subtype = 'Human or Animal Waste'";
+	const limit = 1000;
+
+	let result = await fetch(`${apiEndpoint}$query=SELECT COUNT(media_url) ${baseWhere}`);
+	let json = await result.json();
+	const count = json[0].COUNT_media_url;
+	const offset = Math.floor(Math.random() * count / limit);
+	result = await fetch(`${apiEndpoint}$query=SELECT media_url ${baseWhere} LIMIT ${limit} OFFSET ${offset}`);
+	json = await result.json();
+	urls = json.map(i => i.media_url.url.replace("http://", "https://"));
+	urls.sort(() => Math.random() - .5)
 	document.querySelector("#loader").style.display = 'none';
-	setTimeout(getPooURL, 6000);
+	setPooRL();
+}
+
+function setPooRL() {
+	if (urls.length == 0) {
+		getPoos();
+		return;
+	}
+	imgEl.src = urls.pop();
+}
+
+function doAPoo() {
+	setTimeout(setPooRL, 5000);
+}
+
+function redoAPoo() {
+	setPooRL()
 }
 </script>
