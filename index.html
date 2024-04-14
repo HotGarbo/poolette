@@ -99,12 +99,12 @@
 	}
 
 	function takeDump() {
-		var max = 124000; // As of 2024-04-12
-		// Speed things up by using a deterministic offset which can be cached client _and_ server side
-		var offset = Math.floor(((new Date()).getTime() / 1000 / 60 / 60) % max);
+		var maxPage = 125; // As of 2024-04-12
+		// Speed things up by using a deterministic offset which will be cached client _and_ server side
+		var offset = Math.floor(((new Date()).getTime() / 1000 / 60 / 60) % maxPage) * 1000;
 		var url = "https://data.sfgov.org/resource/vw6y-z8j6.json?&$select=media_url&service_subtype=Human or Animal Waste&$where=media_url IS NOT NULL&$offset=" + offset;
 		var xhr = new XMLHttpRequest();
-		xhr.timeout = 2500;
+		xhr.timeout = 2000;
 		xhr.addEventListener("load", dropLoad);
 		xhr.addEventListener("timeout", takeDump);
 		xhr.open("GET", url);
@@ -134,6 +134,6 @@
 	}
 
 	function doAPoo() {
-		setTimeout(setPooRL, 4500);
+		setTimeout(setPooRL, 4000);
 	}
 </script>
