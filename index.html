@@ -99,10 +99,7 @@
 	}
 
 	function takeDump() {
-		var maxPage = 125; // As of 2024-04-12
-		// Speed things up by using a deterministic offset which will be cached client _and_ server side
-		var offset = Math.floor(((new Date()).getTime() / 1000 / 60 / 60) % maxPage) * 1000;
-		var url = "https://data.sfgov.org/resource/vw6y-z8j6.json?&$select=media_url&service_subtype=Human or Animal Waste&$where=media_url IS NOT NULL&$offset=" + offset;
+		var url = "https://data.sfgov.org/resource/vw6y-z8j6.json?$select=media_url.url&service_details=human_waste_or_urine&$where=media_url%20IS%20NOT%20NULL&$order=service_request_id%20DESC"
 		var xhr = new XMLHttpRequest();
 		xhr.timeout = 2000;
 		xhr.addEventListener("load", dropLoad);
@@ -118,7 +115,7 @@
 			return;
 		}
 		var json = JSON.parse(xhr.responseText);
-		urls = json.map(function (el) { return el.media_url.url.replace("http://", "https://") });
+		urls = json.map(function (el) { return el.media_url_url.replace("http://", "https://") });
 		urls.sort(function () { return Math.random() - .5 });
 		document.querySelector("#loader").style.display = 'none';
 		imgEl.style.display = '';
