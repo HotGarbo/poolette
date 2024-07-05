@@ -1,7 +1,6 @@
-# Poolette
-## AKA [Doo-doo Roulette](https://poolette.hotgarba.ge)
+# [Bicycle RIP](https://bicycle.rip)
 
-Random images of fecal content sent to https://sf311.org/
+Random images of dismembered bicycles from [the City of Brotherly Love](https://www.phila.gov/departments/philly311/)
 
 ---
 A <a href="https://www.hotgarba.ge">Hot Garbage</a> project
