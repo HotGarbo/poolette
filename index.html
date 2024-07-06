@@ -116,7 +116,7 @@
 		}
 		var json = JSON.parse(xhr.responseText);
 		urls = json.map(function (el) { return el.media_url_url.replace("http://", "https://") });
-		urls.sort(function () { return Math.random() - .5 });
+		shuffle(urls);
 		document.querySelector("#loader").style.display = 'none';
 		imgEl.style.display = '';
 		setPooRL();
@@ -132,5 +132,16 @@
 
 	function doAPoo() {
 		setTimeout(setPooRL, 4000);
+	}
+
+	function shuffle(arr) {
+		var i = arr.length;
+		while (i > 0) {
+			var j = Math.floor(Math.random() * i);
+			i--;
+			var tmp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = tmp;
+		}
 	}
 </script>
