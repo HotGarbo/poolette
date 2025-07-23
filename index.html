@@ -116,7 +116,7 @@
 			return;
 		}
 		var json = JSON.parse(xhr.responseText);
-		urls = json.features.map(function (el) { return el.attributes.MEDIA_URL });
+		urls = json.features.map(function (el) { return el.attributes.media_url });
 		shuffle(urls);
 		document.querySelector("#loader").style.display = 'none';
 		imgEl.style.display = '';
